@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const StatsWebpackPlugin = require('stats-webpack-plugin')
 
 const config = merge(base, {
   entry: {
@@ -37,7 +38,16 @@ const config = merge(base, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
-    new VueSSRClientPlugin()
+    new VueSSRClientPlugin(),
+    new StatsWebpackPlugin('../stats/webpack.json', {
+      assets: true,
+      performance: true,
+      timings: true,
+      children: false,
+      source: false,
+      modules: false,
+      chunks: false,
+    })
   ]
 })
 
